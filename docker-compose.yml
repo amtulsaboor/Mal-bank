@@ -1,0 +1,35 @@
+services:
+
+  postgres:
+
+    image: postgres:17
+
+    container_name: postgres
+
+    environment:
+
+      POSTGRES_DB: bankdb
+
+      POSTGRES_USER: bank_app
+
+      POSTGRES_PASSWORD: bank_password
+
+    volumes:
+
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+    ports:
+
+      - "5432:5432"
+
+  app:
+
+    build: ./app
+
+    depends_on:
+
+      - postgres
+
+    ports:
+
+      - "8080:8080"

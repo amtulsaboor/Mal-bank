@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bankops
+  namespace: bankops
+
+spec:
+  replicas: 2
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+
+  selector:
+    matchLabels:
+      app: bankops
+
+  template:
+    metadata:
+      labels:
+        app: bankops
+
+    spec:
+
+      terminationGracePeriodSeconds: 30
+
+      containers:
+
+      - name: bankops
+
+        image: ghcr.io/YOUR_GITHUB_USERNAME/bankops:v1
+
+        imagePullPolicy: IfNotPresent
+
+        ports:
+        - containerPort: 8080
+
+        envFrom:
+        - configMapRef:
+            name: bankops-config
+
+        - secretRef:
+            name: bankops-secret
+
+        resources:
+
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+
+        readinessProbe:
+
+          httpGet:
+            path: /readyz
+            port: 8080
+
+          periodSeconds: 5
+
+        livenessProbe:
+
+          httpGet:
+            path: /healthz
+            port: 8080
+
+          periodSeconds: 10
+
+        lifecycle:
+
+          preStop:
+
+            exec:
+
+              command:
+
+                - sh
+
+                - -c
+
+                - sleep 15
+
+        securityContext:
+
+          runAsNonRoot: true
+
+          runAsUser: 10001
+
+          runAsGroup: 10001
+
+          allowPrivilegeEscalation: false
+
+          readOnlyRootFilesystem: true
+
+          capabilities:
+            drop:
+            - ALL

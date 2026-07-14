@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+
+kind: StatefulSet
+
+metadata:
+
+  name: postgres
+
+  namespace: bankops
+
+spec:
+
+  serviceName: postgres
+
+  replicas: 1
+
+  selector:
+
+    matchLabels:
+
+      app: postgres
+
+  template:
+
+    metadata:
+
+      labels:
+
+        app: postgres
+
+    spec:
+
+      containers:
+
+      - name: postgres
+
+        image: postgres:17
+
+        env:
+
+        - name: POSTGRES_DB
+          value: bankdb
+
+        - name: POSTGRES_USER
+          value: bank_app
+
+        - name: POSTGRES_PASSWORD
+          value: bank_password
+
+        ports:
+
+        - containerPort: 5432
+
+        volumeMounts:
+
+        - name: postgres-storage
+
+          mountPath: /var/lib/postgresql/data
+
+  volumeClaimTemplates:
+
+  - metadata:
+
+      name: postgres-storage
+
+    spec:
+
+      accessModes:
+
+      - ReadWriteOnce
+
+      resources:
+
+        requests:
+
+          storage: 2Gi

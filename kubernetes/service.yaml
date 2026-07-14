@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: bankops
+  namespace: bankops
+
+spec:
+
+  selector:
+    app: bankops
+
+  ports:
+
+  - port: 80
+
+    targetPort: 8080
+
+  type: ClusterIP

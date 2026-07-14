@@ -1,4 +1,4 @@
-# Bank Platform Assessment
+# Bank Platform 
 
 A production-style cloud-native banking platform demonstrating containerization, Kubernetes, Infrastructure as Code, CI/CD, observability, messaging, and security best practices.
 

@@ -1,0 +1,13 @@
+aws_region = "ap-south-1"
+
+environment = "dev"
+
+project_name = "bankops"
+
+eks_cluster_name = "bankops-cluster"
+
+db_name = "bankdb"
+
+db_username = "bank_app"
+
+db_password = "CHANGE_ME"

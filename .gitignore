@@ -2,3 +2,98 @@ __pycache__/
 *.pyc
 .venv/
 .env
+
+# =========================
+# Terraform
+# =========================
+
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfstate
+terraform.tfstate.backup
+crash.log
+
+*.tfvars
+*.tfvars.json
+
+# Keep example variables
+!terraform.tfvars.example
+
+
+# Terraform plan files
+*.plan
+
+
+# =========================
+# Python
+# =========================
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+.env
+.venv/
+venv/
+
+
+# =========================
+# Docker
+# =========================
+
+*.log
+
+
+# =========================
+# Kubernetes
+# =========================
+
+.kube/
+*.secret.yaml
+
+
+# =========================
+# Secrets
+# =========================
+
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+secrets.yaml
+
+
+# =========================
+# IDE
+# =========================
+
+.vscode/
+.idea/
+
+*.swp
+
+
+# =========================
+# OS
+# =========================
+
+.DS_Store
+Thumbs.db
+
+
+# =========================
+# Node (if frontend added)
+# =========================
+
+node_modules/
+dist/
+build/
+
+
+# =========================
+# Database
+# =========================
+
+*.sql.bak

@@ -1,0 +1,36 @@
+Terraform Plan Summary
+=====================
+
+Resources:
+
++ aws_vpc.bank_vpc
+
++ aws_internet_gateway.igw
+
++ aws_subnet.public_subnet_1
+
++ aws_subnet.public_subnet_2
+
++ aws_route_table.public
+
++ aws_ecr_repository.bank_api
+
++ aws_eks_cluster.bank_cluster
+
++ aws_eks_node_group.bank_nodes
+
++ aws_db_instance.bank_database
+
++ aws_secretsmanager_secret.bank_secret
+
+
+No resources applied.
+
+Validated using:
+
+terraform validate
+
+terraform plan
+
+
+Sensitive values removed from output.

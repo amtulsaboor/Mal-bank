@@ -2,12 +2,12 @@
 # Builder Stage
 # =========================
 
-FROM python:3.13-slim@sha256:PLACEHOLDER_DIGEST AS builder
+FROM python:3.13-slim AS builder
 
 WORKDIR /app
 
 
-COPY requirements.txt .
+COPY app/requirements.txt .
 
 
 RUN pip install \
@@ -16,8 +16,7 @@ RUN pip install \
     -r requirements.txt
 
 
-
-COPY . .
+COPY app/ .
 
 
 
@@ -25,7 +24,7 @@ COPY . .
 # Runtime Stage
 # =========================
 
-FROM python:3.13-slim@sha256:PLACEHOLDER_DIGEST
+FROM python:3.13-slim
 
 
 WORKDIR /app
@@ -33,8 +32,8 @@ WORKDIR /app
 
 COPY --from=builder /install /usr/local
 
-
 COPY --from=builder /app .
+
 
 
 # Create non-root user
@@ -65,11 +64,4 @@ HEALTHCHECK \
 
 
 
-CMD [
-    "uvicorn",
-    "main:app",
-    "--host",
-    "0.0.0.0",
-    "--port",
-    "8080"
-]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]

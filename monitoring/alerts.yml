@@ -1,0 +1,66 @@
+groups:
+
+  - name: bank-alerts
+
+    rules:
+
+      - alert: HighErrorRate
+
+        expr: |
+          (
+            sum(rate(http_requests_total{status=~"5.."}[5m]))
+            /
+            sum(rate(http_requests_total[5m]))
+          ) > 0.05
+
+        for: 5m
+
+        labels:
+          severity: critical
+          team: platform
+
+        annotations:
+          summary: "High HTTP 5xx Error Rate"
+
+          description: >
+            More than 5% of requests have returned HTTP 5xx
+            responses for at least 5 minutes.
+            This should page the on-call engineer.
+
+      - alert: ServiceDown
+
+        expr: up{job="bank-app"} == 0
+
+        for: 1m
+
+        labels:
+          severity: critical
+          team: platform
+
+        annotations:
+          summary: "Bank Service Down"
+
+          description: >
+            Prometheus cannot scrape the service.
+            The application may be unavailable.
+
+      - alert: HighLatency
+
+        expr: |
+          histogram_quantile(
+            0.95,
+            sum(
+              rate(http_request_duration_seconds_bucket[5m])
+            ) by (le)
+          ) > 1
+
+        for: 5m
+
+        labels:
+          severity: warning
+
+        annotations:
+          summary: "95th percentile latency above 1 second"
+
+          description: >
+            Customer requests are slower than the SLO target.
